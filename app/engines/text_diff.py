@@ -44,11 +44,11 @@ def diff_words(old_text: str, new_text: str) -> list[dict]:
             old_fragment = old_text[old_span["start"]:old_span["end"]]
         if new_span is not None:
             new_fragment = new_text[new_span["start"]:new_span["end"]]
-    changes.append({
-        "type": tag,
-        "old_text": old_fragment,
-        "new_text": new_fragment,
-        "old_span": old_span,
-        "new_span": new_span,
-    })
+        changes.append({
+            "type": tag,
+            "old_text": old_fragment,
+            "new_text": new_fragment,
+            "old_span": old_span,
+            "new_span": new_span,
+        })
     return changes
