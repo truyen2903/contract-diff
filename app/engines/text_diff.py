@@ -17,6 +17,8 @@ def diff_words(old_text: str, new_text: str) -> list[dict]:
     old = [token["text"] for token in old_tokens]
     new = [token["text"] for token in new_tokens]
     changes = []
+    if old == new:
+        return changes
     matcher  = SequenceMatcher(
         a= old,
         b= new,
