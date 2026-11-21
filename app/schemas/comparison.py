@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.core.config import MAX_TEXT_CHARS
 from app.schemas.document import DocumentExtractionResponse
@@ -14,6 +14,15 @@ class TextComparisonRequest(BaseModel):
         if not value.strip():
             raise ValueError("Văn bản không được chỉ chứa khoảng trắng")
         return value
+
+
+class StructuredTextRequest(TextComparisonRequest):
+    model_config = ConfigDict(json_schema_extra={
+        "example": {
+            "old_text": "Điều 1: Thanh toán\n1. Bên mua thanh toán 100 USD trong 30 ngày.",
+            "new_text": "Điều 1: Thanh toán\n1. Bên mua thanh toán 120 USD trong 30 ngày làm việc.",
+        }
+    })
 
 class TextSpan(BaseModel):
     start: int

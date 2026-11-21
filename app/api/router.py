@@ -1,6 +1,6 @@
-from fastapi import  APIRouter
+from fastapi import APIRouter
 
-from app.api.routes import comparisons,documents,health
+from app.api.routes import comparisons, documents, health, structured
 
 api_router = APIRouter()
 
@@ -19,4 +19,9 @@ api_router.include_router(
     documents.router,
     prefix="/documents",
     tags=["Documents"]
+)
+api_router.include_router(
+    structured.router,
+    prefix="/comparisons/structured",
+    tags=["Structured comparisons"]
 )
