@@ -144,6 +144,8 @@ def test_missing_required_file_returns_422(client, missing_field):
 # ── Phase A: health, /text và kiểm tra đầu vào PDF ───────
 
 TEXT_URL = "/api/v1/comparisons/text"
+STRUCTURED_TEXT_URL = "/api/v1/comparisons/structured/text"
+STRUCTURED_PDF_URL = "/api/v1/comparisons/structured/pdf"
 EXTRACT_URL = "/api/v1/documents/extract"
 
 
@@ -172,6 +174,46 @@ def test_text_comparison_vietnamese(client):
     assert [(c["type"], c["old_text"], c["new_text"]) for c in data["changes"]] == [
         ("replace", "30", "15"),
     ]
+
+
+def test_structured_text_returns_real_b1_b2_b3_result(client):
+    response = client.post(STRUCTURED_TEXT_URL, json={
+        "old_text": "Điều 1: Thanh toán\n1. Bên mua phải thanh toán 100 USD trong 30 ngày.",
+        "new_text": "Điều 1: Thanh toán\n1. Bên mua phải thanh toán 120 USD trong 30 ngày làm việc.",
+    })
+    data = successful_json(response)
+    assert data["b3_schema_version"] == "b3-v1"
+    assert data["old_document"]["nodes"]
+    assert data["new_document"]["nodes"]
+    assert any(row["entity_deltas"] for row in data["alignments"])
+    assert any(delta["signal_type"] == "MONEY_CHANGE"
+               for row in data["alignments"] for delta in row["entity_deltas"])
+
+
+@pytest.mark.parametrize("payload", [{"old_text": "a"}, {"new_text": "a"}, {"old_text": " ", "new_text": "b"}])
+def test_structured_text_validation_is_safe(client, payload):
+    response = client.post(STRUCTURED_TEXT_URL, json=payload)
+    assert response.status_code == 422
+    assert "input" not in response.text
+
+
+def test_structured_pdf_returns_real_result(client):
+    response = client.post(STRUCTURED_PDF_URL, files={
+        "old_file": (OLD_PDF.name, OLD_PDF.read_bytes(), "application/pdf"),
+        "new_file": (NEW_PDF.name, NEW_PDF.read_bytes(), "application/pdf"),
+    })
+    data = successful_json(response)
+    assert data["old_document"]["source_type"] == "PDF_DIGITAL"
+    assert data["new_document"]["source_type"] == "PDF_DIGITAL"
+    assert data["alignments"]
+
+
+@pytest.mark.parametrize("missing_field", ["old_file", "new_file"])
+def test_structured_pdf_missing_file_returns_422(client, missing_field):
+    present_field = "new_file" if missing_field == "old_file" else "old_file"
+    response = client.post(STRUCTURED_PDF_URL, files={present_field: (OLD_PDF.name, OLD_PDF.read_bytes(), "application/pdf")})
+    assert response.status_code == 422
+    assert any(error["loc"][-1] == missing_field for error in response.json()["detail"])
 
 
 def test_text_comparison_whitespace_only_difference(client):

@@ -1,0 +1,4 @@
+/data/dataset_manifest.json text eol=lf
+/data/raw_templates/**/*.txt text eol=lf
+/data/raw_templates/**/*.json text eol=lf
+/tests/fixtures/publication/** text eol=lf

@@ -1,0 +1,65 @@
+{
+  "usage": "ENGINEERING_TEST_ONLY",
+  "authoring": {
+    "method": "machine_authored",
+    "author": "Codex",
+    "independently_written": true,
+    "source": "New fictional text written directly for these parser and alignment tests.",
+    "derived_from_research_families": false,
+    "human_review_status": "NOT_CLAIMED"
+  },
+  "cases": [
+    {
+      "file": "appendix.txt",
+      "sha256": "d4c74a65028bc98feeb787e5394da922e706331da8bd8f5ed57e3d88169ac521",
+      "coverage": [
+        "appendix",
+        "repeated_article_numbers"
+      ]
+    },
+    {
+      "file": "equipment.txt",
+      "sha256": "48bc264a098c41df0f53f0d11a961481372d1ff78adfd293f0382a2dbb67ae84",
+      "coverage": [
+        "duplicate_clause_numbers",
+        "skipped_clause_numbers",
+        "signatures"
+      ]
+    },
+    {
+      "file": "multipage.txt",
+      "sha256": "ccaa833b79f66bb1e7d7b3eae87622cb4eb3d8a090fb964efd4440441f81a678",
+      "coverage": [
+        "page_break",
+        "header_footer",
+        "layout_leakage"
+      ]
+    },
+    {
+      "file": "service.txt",
+      "sha256": "a18fb857aa85e0c1eb14fa1ca01ad4b6101ceb1935fb7426c78c0af925ed69f8",
+      "coverage": [
+        "multiple_articles",
+        "clauses",
+        "money",
+        "working_days"
+      ]
+    },
+    {
+      "file": "signature.txt",
+      "sha256": "46ec9414eabb2ed08d1081690606e7e0446c7633ab2d409da1c7b257b2b36c69",
+      "coverage": [
+        "clause_keyword",
+        "signature_section"
+      ]
+    },
+    {
+      "file": "unstructured.txt",
+      "sha256": "455dbeffaf96cc12bb80ccde285c6a14713106499a43d2cee8268508350945b9",
+      "coverage": [
+        "unstructured_text",
+        "preamble"
+      ]
+    }
+  ]
+}

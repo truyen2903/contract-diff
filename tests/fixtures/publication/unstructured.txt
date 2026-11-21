@@ -1,0 +1,5 @@
+BIÊN BẢN MÔ PHỎNG PHỤC HỒI MÔ HÌNH GIẤY
+Hai nhóm thống nhất kiểm tra mô hình theo danh sách màu.
+Chiếc hộp màu tím chứa các mảnh giấy dùng cho thử nghiệm.
+Các ghi chú được lưu dưới mã giả lập và không chứa tên người thật.
+Việc nhận lại mô hình được ghi bằng một dòng xác nhận cuối buổi.
